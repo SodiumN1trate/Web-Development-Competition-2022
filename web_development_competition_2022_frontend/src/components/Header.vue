@@ -38,7 +38,7 @@ h2 {
 }
 
 #header {
-    background-color: #696969;
+    background-color: #5D5D5D;
     width: 100%;
     height: 80px;
 }
