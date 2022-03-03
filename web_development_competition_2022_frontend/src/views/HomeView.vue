@@ -24,12 +24,53 @@
               </div>
           </div>
 
-          
+          <div class="sidebar-block">
+              <div class="sidebar-content">
+                <h2 class="sidebar-block-title" >12 months overview</h2>
+                <BarGraphComponent />
+              </div>
+          </div>
+
+          <div class="sidebar-block">
+              <div class="sidebar-content">
+                <h2 class="sidebar-block-title" >Categories</h2>
+                <div id="pie-graph-block">
+                  <div>        
+                    <PieGraphComponent />
+                    Occurence
+                  </div>
+
+                  <div>
+                    <PieGraphComponent />
+                    Time
+                  </div>
+                </div>
+              </div>
+          </div>
+
+          <div class="sidebar-block">
+              <div class="sidebar-content">
+                <h2 class="sidebar-block-title" >Used technologies</h2>
+                <div class="tags-block">
+                  <span class="tag">CSS 2</span>
+                  <span class="tag">HTML 2</span>
+                  <span class="tag">Front-End 2</span>
+                  <span class="tag">JS 2</span>
+                  <span class="tag">Figma 2</span>
+                  <span class="tag">UI 2</span>
+                  <span class="tag">Prototyping 2</span>
+                  <span class="tag">DB 2</span>
+                  <span class="tag">Back-End 2</span>
+                  <span class="tag">Security 2</span>
+
+                </div>
+              </div>
+          </div>
+
 
         </div>
 
         <div id="main">
-          Te biju es
         </div>
     </div>
   </div>
@@ -38,11 +79,16 @@
 <script>
 // @ is an alias to /src
 import HeaderComponent from '../components/Header.vue'
-// import SidebarComponent from '../components/Sidebar.vue'
+import BarGraphComponent from '../components/BarGraph.vue'
+import PieGraphComponent from '../components/PieGraph.vue'
+
+
 export default {
   name: 'HomeView',
   components: {
-    HeaderComponent
+    HeaderComponent,
+    BarGraphComponent,
+    PieGraphComponent
     // SidebarComponent
   }
 }
@@ -74,14 +120,15 @@ h2, p {
 
 #sidebar{
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
   width: 30%;
 }
 
 .sidebar-block {
   background-color: white;
   width: 100%;
+  margin-bottom: 5%;
   border-radius: 5px;
   box-shadow: -10px -1px 92px -19px rgba(0,0,0,0.61);
   -webkit-box-shadow: -10px -1px 92px -19px rgba(0,0,0,0.61);
@@ -106,6 +153,31 @@ h2, p {
 
 .time-block-h2 {
   font-weight: 600;
+}
+
+#pie-graph-block {
+  display: flex;
+  flex-direction: row;
+}
+
+#pie-graph-block > div {
+  width: 50%;
+}
+
+.tags-block {
+  margin-top: 2%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  column-gap: 2%;
+}
+
+.tag {
+  background-color: #9c9c9c;
+  color: #fff;
+  padding: 1% 2% 1%; 
+  border-radius: 10px;
+  margin-bottom: 2%;
 }
 
 </style>
