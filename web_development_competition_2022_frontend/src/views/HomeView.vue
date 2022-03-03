@@ -2,9 +2,7 @@
   <div class="home">
     <HeaderComponent />
     <div id="content">
-        <!-- <SidebarComponent /> -->
-        <div id="sidebar">
-
+        <draggable @start="drag=true" @end="drag=false" id="sidebar">
           <div class="sidebar-block">
               <div class="sidebar-content">
                 <h2 class="sidebar-block-title" >Logged working hours</h2>
@@ -67,10 +65,75 @@
               </div>
           </div>
 
-
-        </div>
+        </draggable>
 
         <div id="main">
+          <table id="tasks">
+            <tr>
+              <th>DATE</th>
+              <th>TYPE</th>
+              <th>CATEGORY</th>
+              <th>TIME</th>
+              <th>NOTES</th>
+              <th>TAGS</th>
+            </tr>
+            <tr>
+              <td>25.12.2021</td>
+              <td>prvate project</td>
+              <td>Design</td>
+              <td>5h</td>
+              <td>Preparing Figma screens for competition</td>
+              <td class="tags-block">
+                  <span class="tag">Prototyping 2</span>
+                  <span class="tag">DB 2</span>
+                  <span class="tag">Back-End 2</span>
+                  <span class="tag">Security 2</span>
+                  <h2>🖉</h2>
+              </td>
+            </tr>
+            <tr>
+              <td>25.12.2021</td>
+              <td>prvate project</td>
+              <td>Design</td>
+              <td>5h</td>
+              <td>Preparing Figma screens for competition</td>
+              <td class="tags-block">
+                  <span class="tag">Prototyping 2</span>
+                  <span class="tag">DB 2</span>
+                  <span class="tag">Back-End 2</span>
+                  <span class="tag">Security 2</span>
+                  <h2>🖉</h2>
+              </td>
+            </tr>
+            <tr>
+              <td>25.12.2021</td>
+              <td>prvate project</td>
+              <td>Design</td>
+              <td>5h</td>
+              <td>Preparing Figma screens for competition</td>
+              <td class="tags-block">
+                  <span class="tag">Prototyping 2</span>
+                  <span class="tag">DB 2</span>
+                  <span class="tag">Back-End 2</span>
+                  <span class="tag">Security 2</span>
+                  <h2>🖉</h2>
+              </td>
+            </tr>
+            <tr>
+              <td>25.12.2021</td>
+              <td>prvate project</td>
+              <td>Design</td>
+              <td>5h</td>
+              <td>Preparing Figma screens for competition</td>
+              <td class="tags-block">
+                  <span class="tag">Prototyping 2</span>
+                  <span class="tag">DB 2</span>
+                  <span class="tag">Back-End 2</span>
+                  <span class="tag">Security 2</span>
+                  <h2>🖉</h2>
+              </td>
+            </tr>
+          </table>
         </div>
     </div>
   </div>
@@ -81,6 +144,7 @@
 import HeaderComponent from '../components/Header.vue'
 import BarGraphComponent from '../components/BarGraph.vue'
 import PieGraphComponent from '../components/PieGraph.vue'
+import draggable from 'vuedraggable'
 
 
 export default {
@@ -88,8 +152,12 @@ export default {
   components: {
     HeaderComponent,
     BarGraphComponent,
-    PieGraphComponent
+    PieGraphComponent,
+    draggable
     // SidebarComponent
+  },
+  methods : {
+  
   }
 }
 </script>
@@ -102,27 +170,22 @@ h2, p {
 }
 
 #content {
-  max-width: 1500px;
+  max-width: 1800px;
   width: 100%;
   display: flex;
   justify-content: center;
   gap: 2%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 5%;
-}
-
-#main{
-  width: 70%;
-  height: 500px;
-  background-color: white;
+  margin-top: 3%;
+  align-items: flex-start;
 }
 
 #sidebar{
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 30%;
+  width: 25%;
 }
 
 .sidebar-block {
@@ -130,9 +193,9 @@ h2, p {
   width: 100%;
   margin-bottom: 5%;
   border-radius: 5px;
-  box-shadow: -10px -1px 92px -19px rgba(0,0,0,0.61);
-  -webkit-box-shadow: -10px -1px 92px -19px rgba(0,0,0,0.61);
-  -moz-box-shadow: -10px -1px 92px -19px rgba(0,0,0,0.61);
+  box-shadow: 7px 3px 16px -7px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 7px 3px 16px -7px rgba(0,0,0,0.75);
+  -moz-box-shadow: 7px 3px 16px -7px rgba(0,0,0,0.75);
 }
 
 .sidebar-content {
@@ -176,8 +239,55 @@ h2, p {
   background-color: #9c9c9c;
   color: #fff;
   padding: 1% 2% 1%; 
-  border-radius: 10px;
+  border-radius: 5px;
   margin-bottom: 2%;
+  font-size: 12px;
+}
+
+
+#main{
+  width: 75%;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 7px 3px 16px -7px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 7px 3px 16px -7px rgba(0,0,0,0.75);
+  -moz-box-shadow: 7px 3px 16px -7px rgba(0,0,0,0.75);
+}
+
+
+#tasks {
+  height: auto;
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+#tasks > tr {
+  border-bottom: 1px solid #ddd;
+  border-radius: 1em;
+}
+
+#tasks > tr > th {
+  color: #595959;
+  background-color: #c2c2c2;
+  padding-left: 1%;
+  padding-right: 2%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  text-align: left;
+} 
+
+
+#tasks > tr > td {
+  margin-right: 0.5%;
+  padding: 1.3%;
+  text-align: left;
+}
+
+
+#tasks > td, #tasks > th {
+  padding: 8px;
 }
 
 </style>
