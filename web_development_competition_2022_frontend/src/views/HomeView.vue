@@ -12,12 +12,12 @@
                       <h2 class="time-block-h2">15,5 h</h2>
                       <p class="time-block-p">Total</p>
                     </div>
-                
+
                     <div>
                       <h2 class="time-block-h2">13,5 h</h2>
                       <p class="time-block-p">Last month</p>
                     </div>
-                
+
                 </div>
               </div>
           </div>
@@ -33,7 +33,7 @@
               <div class="sidebar-content">
                 <h2 class="sidebar-block-title" >Categories</h2>
                 <div id="pie-graph-block">
-                  <div>        
+                  <div>
                     <PieGraphComponent />
                     Occurence
                   </div>
@@ -157,7 +157,7 @@ export default {
     // SidebarComponent
   },
   methods : {
-  
+
   }
 }
 </script>
@@ -238,10 +238,12 @@ h2, p {
 .tag {
   background-color: #9c9c9c;
   color: #fff;
-  padding: 1% 2% 1%; 
+  padding: 1% 2% 1%;
   border-radius: 5px;
   margin-bottom: 2%;
   font-size: 12px;
+  display: flex;
+  align-items: center;
 }
 
 
@@ -276,7 +278,7 @@ h2, p {
   padding-top: 1%;
   padding-bottom: 1%;
   text-align: left;
-} 
+}
 
 
 #tasks > tr > td {
