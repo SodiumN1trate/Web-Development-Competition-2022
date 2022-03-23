@@ -19,7 +19,12 @@ class CreateTasksTable extends Migration
             $table->string('category');
             $table->integer('time');
             $table->string('notes');
+            $table->unsignedBigInteger('owner_id')->unsigned();
             $table->timestamps();
+        });
+
+        Schema::table('tasks', function(Blueprint $table) {
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
