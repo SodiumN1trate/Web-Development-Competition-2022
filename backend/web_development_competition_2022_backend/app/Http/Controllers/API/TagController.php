@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Task;
-use App\Http\Requests\TaskRequest;
-use App\Http\Resources\TaskResource;
-class TaskController extends Controller
+use Illuminate\Http\Request;
+
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return TaskResource::collection(Task::all());
+        //
     }
 
     /**
@@ -24,44 +23,41 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskRequest $request)
+    public function store(Request $request)
     {
-        $new_ticket = Task::create($request->validated());
-        return new TaskResource($new_ticket);
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Task  $task
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(TaskRequest $task)
+    public function show($id)
     {
-        return new TaskResource($task);
+        //
     }
-
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Task  $task
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TaskRequest $request, Task $task)
+    public function update(Request $request, $id)
     {
-        $task->update($request->validated());
-        return new TaskResource($task);
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Task  $task
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy($id)
     {
         //
     }

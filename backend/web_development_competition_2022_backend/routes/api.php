@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
-
+use App\Http\Controllers\Api\TaskController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,3 +24,8 @@ use App\Http\Controllers\Api\UserController;
 Route::middleware('auth:api')->get('/user', [UserController::class, 'user']);
 Route::middleware('auth:api')->get('/logout', [UserController::class, 'logout']);
 Route::post('/login', [UserController::class, 'login']);
+
+
+Route::apiResources([
+    'tasks' => TaskController::class
+]);
