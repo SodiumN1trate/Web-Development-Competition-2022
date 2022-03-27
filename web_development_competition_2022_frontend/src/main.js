@@ -5,6 +5,7 @@ import store from './store'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 
+
 Vue.config.productionTip = false
 
 new Vue({
@@ -12,3 +13,4 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+

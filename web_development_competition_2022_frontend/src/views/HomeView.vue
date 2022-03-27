@@ -156,8 +156,10 @@ export default {
     draggable
     // SidebarComponent
   },
-  methods : {
-
+  mounted: function () {
+    if(this.$store.state.userToken == null){
+      this.$router.push('/login')
+    }
   }
 }
 </script>

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TaskResource;
 use Illuminate\Http\Request;
-
+use App\Models\Tag;
+use App\Http\Resources\TagResource;
+use App\Http\Requests\TagRequest;
 class TagController extends Controller
 {
     /**
@@ -14,7 +17,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
+        return TagResource::collection(Tag::all());
     }
 
     /**
@@ -23,42 +26,45 @@ class TagController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TagRequest $request)
     {
-        //
+        $new_tag = Tag::create($request->validated());
+        return new TagResource($new_tag);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param TagRequest $tag
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(TagRequest $tag)
     {
-        //
+        return new TagResource($tag);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param Tag $tag
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TagRequest $request, Tag $tag)
     {
-        //
+        $tag->update($request->validated());
+        return new TagResource($tag);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Tag $tag
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Tag $tag)
     {
-        //
+        $tag->destroy();
+        return new TaskResource($tag);
     }
 }

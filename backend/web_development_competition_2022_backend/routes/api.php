@@ -2,8 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\TaskController;
+use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\TaskController;
+use App\Http\Controllers\API\TagController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,10 +23,11 @@ use App\Http\Controllers\Api\TaskController;
 
 // User
 Route::middleware('auth:api')->get('/user', [UserController::class, 'user']);
-Route::middleware('auth:api')->get('/logout', [UserController::class, 'logout']);
+Route::middleware('auth:api')->post('/logout', [UserController::class, 'logout']);
 Route::post('/login', [UserController::class, 'login']);
 
 
 Route::apiResources([
-    'tasks' => TaskController::class
+    'tasks' => TaskController::class,
+    'tags' => TagController::class
 ]);

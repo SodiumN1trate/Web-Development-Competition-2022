@@ -11,7 +11,7 @@
                     <h2>Thomas Jed</h2>
                     <p>competitor</p>
                 </div>
-                <button>SIGN OUT</button>
+                <button @click="logout">SIGN OUT</button>
             </div>
         </div>
     </div>
@@ -64,6 +64,13 @@ export default {
         tag: '',
         tags: [],
         sidebarDisplayStatus: true
+      }
+    },
+    methods: {
+      logout: function () {
+        this.$store.dispatch('logout').then(() => {
+          this.$router.push('/login')
+        })
       }
     }
 }
