@@ -27,7 +27,5 @@ Route::middleware('auth:api')->post('/logout', [UserController::class, 'logout']
 Route::post('/login', [UserController::class, 'login']);
 
 
-Route::apiResources([
-    'tasks' => TaskController::class,
-    'tags' => TagController::class
-]);
+Route::apiResource('tasks', TaskController::class)->middleware('auth:api');
+Route::apiResource('tags', TagController::class)->middleware('auth:api');

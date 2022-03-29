@@ -16,20 +16,26 @@
         </div>
     </div>
     <div class="sidebar-slider" v-bind:class='{ "sidebar_slider_off": sidebarDisplayStatus, "sidebar_slider_on": !sidebarDisplayStatus}'>
-      <form class="w-75 center-block mt-5">
+      <form @submit.prevent="add_task" class="w-75 center-block mt-5">
         <h1 class="mb-2">Add new task</h1>
+
         <label for="type-input" class="text-white">Type</label>
         <div class="input-group input-group-sm mb-3 text-center">
-          <input type="text" class="form-control" id="type-input" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+          <input v-model="form.type" type="text" class="form-control" id="type-input" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+        </div>
+
+        <label for="notes-input" class="text-white">Notes</label>
+        <div class="input-group input-group-sm mb-3 text-center">
+          <input v-model="form.notes" type="text" class="form-control" id="notes-input" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
         </div>
 
         <label for="time-input" class="text-white">Time</label>
         <div class="input-group input-group-sm mb-3 w-25">
-          <input type="number" class="form-control" id="time-input" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+          <input v-model="form.time" type="number" class="form-control" id="time-input" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
         </div>
 
         <label class="text-white">Choose category</label>
-        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+        <select v-model="form.category" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
           <option selected>Choose category</option>
           <option value="Design">Design</option>
           <option value="Front-End">Front-End</option>
@@ -42,7 +48,7 @@
             :tags="tags"
             @tags-changed="newTags => tags = newTags"
         />
-        <button type="button" class="btn btn-secondary mt-2">Add</button>
+        <button type="submit" class="btn btn-secondary mt-2">Add</button>
       </form>
     </div>
 
@@ -63,7 +69,13 @@ export default {
       return {
         tag: '',
         tags: [],
-        sidebarDisplayStatus: true
+        sidebarDisplayStatus: true,
+        form: {
+          "type": "",
+          "category": "",
+          "time": "",
+          "notes": ""
+        },
       }
     },
     methods: {
@@ -71,6 +83,11 @@ export default {
         this.$store.dispatch('logout').then(() => {
           this.$router.push('/login')
         })
+      },
+      add_task: function () {
+       this.$store.dispatch('add_task', this.form).then(() => {
+         console.log("done")
+       })
       }
     }
 }

@@ -28,7 +28,6 @@ class TaskRequest extends FormRequest
             'category'=>'required',
             'time'=>'required',
             'notes'=>'required',
-            'owner_id'=>'required'
         ];
     }
 }

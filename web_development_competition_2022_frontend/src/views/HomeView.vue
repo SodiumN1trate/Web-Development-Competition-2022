@@ -157,9 +157,9 @@ export default {
     // SidebarComponent
   },
   mounted: function () {
-    if(this.$store.state.userToken == null){
+    this.$store.dispatch('get_user').catch(() => {
       this.$router.push('/login')
-    }
+    })
   }
 }
 </script>

@@ -26,6 +26,8 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
+        var_dump($request->validated());
+        $request->validated()->test = "test";
         $new_ticket = Task::create($request->validated());
         return new TaskResource($new_ticket);
     }
