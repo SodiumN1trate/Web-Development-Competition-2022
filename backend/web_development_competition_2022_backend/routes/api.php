@@ -21,11 +21,17 @@ use App\Http\Controllers\API\TagController;
 //});
 //
 
-// User
-Route::middleware('auth:api')->get('/user', [UserController::class, 'user']);
-Route::middleware('auth:api')->post('/logout', [UserController::class, 'logout']);
 Route::post('/login', [UserController::class, 'login']);
 
+Route::group(['middleware' => ['auth:api']], function () {
+    Route::post('/logout', [UserController::class, 'logout']);
+    Route::get('/user', [UserController::class, 'user']);
+    Route::get('tasks/user_tasks', [TaskController::class, 'user_tasks']);
+    Route::get('tasks/get_hours', [TaskController::class, 'get_hours']);
+    Route::get('tasks/filter_tasks_by_category', [TaskController::class, 'filter_tasks_by_category']);
+    Route::get('tasks/filter_tasks_by_category_time', [TaskController::class, 'filter_tasks_by_category_time']);
+    Route::get('tags/user_tags', [TagController::class, 'user_tags']);
+});
 
 Route::apiResource('tasks', TaskController::class)->middleware('auth:api');
 Route::apiResource('tags', TagController::class)->middleware('auth:api');

@@ -4,7 +4,7 @@
     extends: Pie,
     data () {
       return {
-        chartData: {
+        chartData1: {
           labels: ["Design", "Front-End", "Back-End"],
           datasets: [{
               backgroundColor: [
@@ -12,7 +12,7 @@
               '#9c9c9c',
               '#7d7d7d',
               ],
-              data: [this.$store.state.categoriesCount.design, this.$store.state.categoriesCount.front_end, this.$store.state.categoriesCount.back_end]
+              data: [this.$store.state.categoriesTime.design, this.$store.state.categoriesTime.front_end, this.$store.state.categoriesTime.back_end]
             }]
         },
         options: {
@@ -25,8 +25,9 @@
       }
     },
     mounted () {
-      this.renderChart(this.chartData, this.options)
-      this.$store.dispatch('filter_tasks_by_category').then(() => {
+      this.renderChart(this.chartData1, this.options)
+      this.$store.dispatch('filter_tasks_by_category_time').then(() => {
+        console.log(this.$store.state.categoriesTime)
       })
     }
   }

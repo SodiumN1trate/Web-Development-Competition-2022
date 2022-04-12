@@ -3,13 +3,18 @@ import Vuex from 'vuex'
 import axios from 'axios'
 
 
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     error: null,
     userToken: localStorage.getItem('token') || null,
-    name: ""
+    name: "",
+    tasks: [],
+    categoriesCount: [],
+    categoriesTime: [],
+    hours: null
   },
   getters: {
 
@@ -23,6 +28,18 @@ export default new Vuex.Store({
     },
     set_user_name: function (state, name) {
       state.name = name
+    },
+    set_user_tasks: function (state, tasks) {
+      state.tasks = tasks
+    },
+    set_task_hours: function (state, hours) {
+      state.hours = hours;
+    },
+    set_categories_count: function (state, count) {
+      state.categoriesCount = count
+    },
+    set_categories_time: function (state, time) {
+      state.categoriesTime = time
     }
   },
   actions: {
@@ -51,26 +68,69 @@ export default new Vuex.Store({
         })
       })
     },
-    add_task: function (context, form) {
+    add_task: function (context, data) {
       return new Promise((resolve) => {
-        axios.post(process.env.VUE_APP_SERVER_HOST+'tasks', form, {headers: {"Authorization": `Bearer ${this.state.userToken}`}}).then((response) => {
-          console.log(response)
-          resolve(response)
+        axios.post(process.env.VUE_APP_SERVER_HOST+'tasks', data.form, {headers: {"Authorization": `Bearer ${this.state.userToken}`}}).then((response) => {
+          data.tags.forEach((tag) => {
+            tag['task_id'] = response.data.data.id
+            axios.post(process.env.VUE_APP_SERVER_HOST+'tags', tag, {headers: {"Authorization": `Bearer ${this.state.userToken}`}}).then(() => {
+              console.log("Sent!")
+            })
+          })
         })
+
+        resolve(true)
+
       })
     },
     get_user: function (context) {
       return new Promise((resolve, reject) => {
         axios.get(process.env.VUE_APP_SERVER_HOST+'user', {headers: {"Authorization": `Bearer ${this.state.userToken}`}}).then((response) => {
-          if(response.data.user) {
-            context.commit('set_user_name', response.data.user.name)
+          if(response.data.id) {
+            context.commit('set_user_name', response.data.name)
           }
+          // console.log(context.state.userId)
+          resolve(response)
         }).catch((error) => {
           if(error.response){
             localStorage.removeItem('token')
             context.commit('set_user_token', null)
             reject(error)
           }
+        })
+      })
+    },
+    get_tasks: function (context) {
+      return new Promise((resolve) => {
+        axios.get(process.env.VUE_APP_SERVER_HOST + 'tasks', {headers: {"Authorization": `Bearer ${this.state.userToken}`}}).then((response) => {
+          context.commit('set_user_tasks', response.data.data)
+          resolve(response)
+        })
+      })
+    },
+
+    get_hours: function (context) {
+      return new Promise((resolve) => {
+        axios.get(process.env.VUE_APP_SERVER_HOST + 'tasks/get_hours', {headers: {"Authorization": `Bearer ${this.state.userToken}`}}).then((response) => {
+          context.commit('set_task_hours', response.data.hours)
+          resolve(response)
+        })
+      })
+    },
+
+    filter_tasks_by_category: function (context) {
+      return new Promise((resolve) => {
+        axios.get(process.env.VUE_APP_SERVER_HOST + 'tasks/filter_tasks_by_category', {headers: {"Authorization": `Bearer ${this.state.userToken}`}}).then((response) => {
+          context.commit('set_categories_count', response.data)
+          resolve(response)
+        })
+      })
+    },
+    filter_tasks_by_category_time: function (context) {
+      return new Promise((resolve) => {
+        axios.get(process.env.VUE_APP_SERVER_HOST + 'tasks/filter_tasks_by_category_time', {headers: {"Authorization": `Bearer ${this.state.userToken}`}}).then((response) => {
+          context.commit('set_categories_time', response.data)
+          resolve(response)
         })
       })
     }

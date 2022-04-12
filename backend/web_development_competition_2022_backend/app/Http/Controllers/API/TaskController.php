@@ -15,7 +15,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return TaskResource::collection(Task::all());
+        return TaskResource::collection(Task::where('owner_id', '=', auth()->user()->id)->get());
     }
 
     /**
@@ -26,9 +26,10 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
-        var_dump($request->validated());
-        $request->validated()->test = "test";
-        $new_ticket = Task::create($request->validated());
+        $validated = $request->validated();
+        $validated['owner_id'] = auth()->user()->id;
+        dd($validated);
+        $new_ticket = Task::create($validated);
         return new TaskResource($new_ticket);
     }
 
@@ -67,5 +68,55 @@ class TaskController extends Controller
     {
         $task->delete();
         return new TaskResource($task);
+    }
+
+    public function get_hours(): \Illuminate\Http\JsonResponse
+    {
+        $hours = 0;
+        foreach (Task::where('owner_id', '=', auth()->user()->id)->get() as $task) {
+            $hours += $task->time;
+        }
+        return response()->json(['hours'=>$hours]);
+    }
+
+    public function user_tasks(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    {
+        return TaskResource::collection(Task::where('owner_id', '=', auth()->user()->id)->get());
+    }
+
+    public function filter_tasks_by_category(): \Illuminate\Http\JsonResponse
+    {
+        $design = 0;
+        $front_end = 0;
+        $back_end = 0;
+        foreach (Task::where('owner_id', '=', auth()->user()->id)->get() as $task) {
+            if($task->category == "Design") {
+                $design+=1;
+            } elseif ($task->category == "Front-End") {
+                $front_end+=1;
+            } else {
+                $back_end+=1;
+            }
+
+        }
+        return response()->json(["front_end"=>$front_end, "back_end"=>$back_end, "design"=>$design]);
+    }
+
+    public function filter_tasks_by_category_time(): \Illuminate\Http\JsonResponse
+    {
+        $design = 0;
+        $front_end = 0;
+        $back_end = 0;
+        foreach (Task::where('owner_id', '=', auth()->user()->id)->get() as $task) {
+            if($task->category == "Design") {
+                $design+=$task->time;
+            } elseif ($task->category == "Front-End") {
+                $front_end+=$task->time;
+            } else {
+                $back_end+=$task->time;
+            }
+
+        }
+        return response()->json(["front_end"=>$front_end, "back_end"=>$back_end, "design"=>$design]);
     }
 }

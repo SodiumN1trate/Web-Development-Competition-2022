@@ -13,7 +13,7 @@ class TagController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
@@ -24,12 +24,15 @@ class TagController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return TagResource
      */
     public function store(TagRequest $request)
     {
         $new_tag = Tag::create($request->validated());
-        return new TagResource($new_tag);
+        error_log("cav");
+        $new_tag['owner_id'] = auth()->user()->id;
+        $tag = Tag::create($new_tag);
+        return new TagResource($tag);
     }
 
     /**
@@ -66,5 +69,10 @@ class TagController extends Controller
     {
         $tag->destroy();
         return new TaskResource($tag);
+    }
+
+    public static function user_tags()
+    {
+//        return TagResource::collection(Tag::where('owner'));
     }
 }

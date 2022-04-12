@@ -51,7 +51,8 @@
 <script>
 
 export default {
-    name: 'SidebarComponent'
+    name: 'SidebarComponent',
+    props: ['hours']
 }
 </script>
 
@@ -68,7 +69,7 @@ export default {
 
 .sidebar-content {
     margin: 10% 4% 2%;
- } 
+ }
 
 #time-block {
     display: flex;

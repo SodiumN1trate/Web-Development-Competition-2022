@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <HeaderComponent />
+    <HeaderComponent :id="this.$store.state.userId" :name="this.$store.state.name"/>
     <div id="content">
         <draggable @start="drag=true" @end="drag=false" id="sidebar">
           <div class="sidebar-block">
@@ -9,12 +9,12 @@
                 <div id="time-block">
 
                     <div>
-                      <h2 class="time-block-h2">15,5 h</h2>
+                      <h2 class="time-block-h2">{{ this.$store.state.hours }} h</h2>
                       <p class="time-block-p">Total</p>
                     </div>
 
                     <div>
-                      <h2 class="time-block-h2">13,5 h</h2>
+                      <h2 class="time-block-h2">{{ this.$store.state.hours }} h</h2>
                       <p class="time-block-p">Last month</p>
                     </div>
 
@@ -35,11 +35,11 @@
                 <div id="pie-graph-block">
                   <div>
                     <PieGraphComponent />
-                    Occurence
+                    Occurrence
                   </div>
 
                   <div>
-                    <PieGraphComponent />
+                    <PieGraphTimeComponent />
                     Time
                   </div>
                 </div>
@@ -77,59 +77,14 @@
               <th>NOTES</th>
               <th>TAGS</th>
             </tr>
-            <tr>
-              <td>25.12.2021</td>
-              <td>prvate project</td>
-              <td>Design</td>
-              <td>5h</td>
-              <td>Preparing Figma screens for competition</td>
-              <td class="tags-block">
-                  <span class="tag">Prototyping 2</span>
-                  <span class="tag">DB 2</span>
-                  <span class="tag">Back-End 2</span>
-                  <span class="tag">Security 2</span>
-                  <h2>🖉</h2>
-              </td>
-            </tr>
-            <tr>
-              <td>25.12.2021</td>
-              <td>prvate project</td>
-              <td>Design</td>
-              <td>5h</td>
-              <td>Preparing Figma screens for competition</td>
-              <td class="tags-block">
-                  <span class="tag">Prototyping 2</span>
-                  <span class="tag">DB 2</span>
-                  <span class="tag">Back-End 2</span>
-                  <span class="tag">Security 2</span>
-                  <h2>🖉</h2>
-              </td>
-            </tr>
-            <tr>
-              <td>25.12.2021</td>
-              <td>prvate project</td>
-              <td>Design</td>
-              <td>5h</td>
-              <td>Preparing Figma screens for competition</td>
-              <td class="tags-block">
-                  <span class="tag">Prototyping 2</span>
-                  <span class="tag">DB 2</span>
-                  <span class="tag">Back-End 2</span>
-                  <span class="tag">Security 2</span>
-                  <h2>🖉</h2>
-              </td>
-            </tr>
-            <tr>
-              <td>25.12.2021</td>
-              <td>prvate project</td>
-              <td>Design</td>
-              <td>5h</td>
-              <td>Preparing Figma screens for competition</td>
-              <td class="tags-block">
-                  <span class="tag">Prototyping 2</span>
-                  <span class="tag">DB 2</span>
-                  <span class="tag">Back-End 2</span>
-                  <span class="tag">Security 2</span>
+            <tr v-for="task in this.$store.state.tasks" :key="task.id">
+              <td>{{ task.created_at }}</td>
+              <td>{{ task.type }}</td>
+              <td>{{ task.category }}</td>
+              <td>{{ task.time }}h</td>
+              <td>{{ task.notes }}</td>
+              <td v-for="tag in task.tags" :key="tag.id" class="tags-block">
+                  <span class="tag">{{ tag.text }}</span>
                   <h2>🖉</h2>
               </td>
             </tr>
@@ -144,6 +99,7 @@
 import HeaderComponent from '../components/Header.vue'
 import BarGraphComponent from '../components/BarGraph.vue'
 import PieGraphComponent from '../components/PieGraph.vue'
+import PieGraphTimeComponent from "@/components/PieGraphTime";
 import draggable from 'vuedraggable'
 
 
@@ -153,13 +109,21 @@ export default {
     HeaderComponent,
     BarGraphComponent,
     PieGraphComponent,
+    PieGraphTimeComponent,
     draggable
     // SidebarComponent
   },
-  mounted: function () {
+  beforeMount: function () {
     this.$store.dispatch('get_user').catch(() => {
       this.$router.push('/login')
     })
+
+    this.$store.dispatch('get_tasks').then(() => {
+      console.log(this.$store.state.tasks)
+    })
+
+    this.$store.dispatch('get_hours').then(() => {})
+
   }
 }
 </script>

@@ -8,7 +8,7 @@
             </div>
             <div>
                 <div>
-                    <h2>Thomas Jed</h2>
+                    <h2>{{ name }}</h2>
                     <p>competitor</p>
                 </div>
                 <button @click="logout">SIGN OUT</button>
@@ -36,7 +36,6 @@
 
         <label class="text-white">Choose category</label>
         <select v-model="form.category" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-          <option selected>Choose category</option>
           <option value="Design">Design</option>
           <option value="Front-End">Front-End</option>
           <option value="Back-End">Back-End</option>
@@ -65,12 +64,14 @@ export default {
     components: {
       VueTagsInput
     },
+    props: ['id','name'],
     data: function() {
       return {
         tag: '',
         tags: [],
         sidebarDisplayStatus: true,
         form: {
+          // "owner_id": null,
           "type": "",
           "category": "",
           "time": "",
@@ -85,7 +86,8 @@ export default {
         })
       },
       add_task: function () {
-       this.$store.dispatch('add_task', this.form).then(() => {
+        // this.form.owner_id = this.id
+       this.$store.dispatch('add_task', {form: this.form, tags: this.tags}).then(() => {
          console.log("done")
        })
       }

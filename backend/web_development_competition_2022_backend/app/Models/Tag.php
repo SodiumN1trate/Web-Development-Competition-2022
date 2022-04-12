@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    protected $fillable = ['id', 'title', 'task_id'];
+    protected $fillable = ['id', 'text', 'task_id', 'owner_id'];
     use HasFactory;
 }

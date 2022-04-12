@@ -3,7 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use App\Http\Resources\TagResource;
+use App\Models\Tag;
 class TaskResource extends JsonResource
 {
     /**
@@ -20,7 +21,9 @@ class TaskResource extends JsonResource
             'category'=>$this->category,
             'time'=>$this->time,
             'notes'=>$this->notes,
-            'owner_id'=>$this->owner_id
+            'owner_id'=>$this->owner_id,
+            'created_at'=>$this->created_at->format('Y-m-d H:i:s'),
+            'tags'=>TagResource::collection(Tag::all()->where('task_id', '==', $this->id))
         ];
     }
 }
